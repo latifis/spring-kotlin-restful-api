@@ -105,7 +105,6 @@ Request :
 - Query Params :
   - size : number,
   - page : number
-  - 
 - Response :
 
 ```json
