@@ -30,4 +30,66 @@ class ProductServiceImpl(val productRepository: ProductRepository) : ProductServ
                 updateAt = product.updateAt
         )
     }
+
+    override fun getAllProducts(): List<ProductResponse> {
+        val products = productRepository.findAll()
+        return products.map { product ->
+            ProductResponse(
+                    id = product.id,
+                    name = product.name,
+                    price = product.price,
+                    quantity = product.quantity,
+                    createAt = product.createAt,
+                    updateAt = product.updateAt
+            )
+        }
+    }
+
+    private val cart: MutableList<Product> = mutableListOf()
+
+    override fun addToCart(productId: String) {
+        val productOptional = productRepository.findById(productId)
+
+        productOptional.ifPresent { product ->
+            cart.add(product)
+        }
+    }
+
+    override fun getCartItems(): List<ProductResponse> {
+        return cart.map { product ->
+            ProductResponse(
+                    id = product.id,
+                    name = product.name,
+                    price = product.price,
+                    quantity = product.quantity,
+                    createAt = product.createAt,
+                    updateAt = product.updateAt
+            )
+        }
+    }
+
+    override fun removeFromCart(productId: String) {
+        val index = cart.indexOfFirst { product -> product.id == productId }
+
+        if (index != -1) {
+            cart.removeAt(index)
+        }
+    }
+
+    override fun checkout() {
+        // Implementasi logika untuk proses checkout
+        // Menambahkan logika untuk menghitung total pembayaran, mengurangi stok produk dari database, memproses pembayaran
+
+        // Contoh sederhana untuk proses checkout: mengosongkan keranjang belanja
+        cart.clear()
+
+        // Contoh sederhana untuk mengurangi stok produk dari database:
+        // for (product in cart) {
+        //     val existingProduct = productRepository.findById(product.id)
+        //     existingProduct.ifPresent { p ->
+        //         p.quantity -= 1
+        //         productRepository.save(p)
+        //     }
+        // }
+    }
 }
