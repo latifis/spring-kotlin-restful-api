@@ -5,6 +5,7 @@ import latifspringboot.kotlin.restful.model.CreateCartRequest
 import latifspringboot.kotlin.restful.model.ProductResponse
 import latifspringboot.kotlin.restful.model.WebResponse
 import latifspringboot.kotlin.restful.service.CartService
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -42,6 +43,20 @@ class CartController (val cartService: CartService){
                 code = 200,
                 status = "OK",
                 data = cartItems
+        )
+    }
+
+    @DeleteMapping(
+            value = ["/api/cart/{productId}"],
+            produces = ["application/json"]
+    )
+    fun removeFromCart(@PathVariable productId: String): WebResponse<String> {
+        cartService.removeFromCart(productId)
+
+        return WebResponse(
+                code = 200,
+                status = "OK",
+                data = "Product $productId removed from cart successfully"
         )
     }
 }

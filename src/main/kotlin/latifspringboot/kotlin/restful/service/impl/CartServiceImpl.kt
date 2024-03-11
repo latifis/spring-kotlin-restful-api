@@ -54,10 +54,11 @@ class CartServiceImpl(val cartRepository: CartRepository, val productRepository:
     }
 
     override fun removeFromCart(productId: String) {
-        val index = cart.indexOfFirst { product -> product.id == productId }
+        val cartOptional = cartRepository.findById(productId)
 
-        if (index != -1) {
-            cart.removeAt(index)
+        if (cartOptional.isPresent) {
+            val cart = cartOptional.get()
+            cartRepository.delete(cart)
         }
     }
 
