@@ -1,5 +1,6 @@
 package latifspringboot.kotlin.restful.controller
 
+import latifspringboot.kotlin.restful.model.CartResponse
 import latifspringboot.kotlin.restful.model.CreateCartRequest
 import latifspringboot.kotlin.restful.model.ProductResponse
 import latifspringboot.kotlin.restful.model.WebResponse
@@ -34,7 +35,7 @@ class CartController (val cartService: CartService){
             value = ["/api/cart"],
             produces = ["application/json"]
     )
-    fun getCartItems(): WebResponse<List<ProductResponse>> {
+    fun getCartItems(): WebResponse<List<CartResponse>> {
         val cartItems = cartService.getCartItems()
 
         return WebResponse(

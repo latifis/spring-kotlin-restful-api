@@ -2,6 +2,7 @@ package latifspringboot.kotlin.restful.service.impl
 
 import latifspringboot.kotlin.restful.entity.Cart
 import latifspringboot.kotlin.restful.entity.Product
+import latifspringboot.kotlin.restful.model.CartResponse
 import latifspringboot.kotlin.restful.model.CreateCartRequest
 import latifspringboot.kotlin.restful.model.CreateProductRequest
 import latifspringboot.kotlin.restful.model.ProductResponse
@@ -36,15 +37,18 @@ class CartServiceImpl(val cartRepository: CartRepository, val productRepository:
         }
     }
 
-    override fun getCartItems(): List<ProductResponse> {
-        return cart.map { product ->
-            ProductResponse(
-                    id = product.id,
-                    name = product.name,
-                    price = product.price,
-                    quantity = product.quantity,
-                    createAt = product.createAt,
-                    updateAt = product.updateAt
+    override fun getCartItems(): List<CartResponse> {
+
+        val carts = cartRepository.findAll()
+        return carts.map { cart ->
+            CartResponse(
+                    id = cart.id,
+                    idProduct = cart.idProduct,
+                    productName = cart.productName,
+                    price = cart.price,
+                    quantity = cart.quantity,
+                    createAt = cart.createAt,
+                    updateAt = cart.updateAt
             )
         }
     }
