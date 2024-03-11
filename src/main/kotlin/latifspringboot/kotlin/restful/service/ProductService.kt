@@ -9,12 +9,6 @@ interface ProductService {
 
     fun getAllProducts(): List<ProductResponse>
 
-    fun addToCart(productId: String)
-
-    fun getCartItems(): List<ProductResponse>
-
-    fun removeFromCart(productId: String)
-
     fun checkout()
 
 }

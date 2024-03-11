@@ -47,35 +47,6 @@ class ProductServiceImpl(val productRepository: ProductRepository) : ProductServ
 
     private val cart: MutableList<Product> = mutableListOf()
 
-    override fun addToCart(productId: String) {
-        val productOptional = productRepository.findById(productId)
-
-        productOptional.ifPresent { product ->
-            cart.add(product)
-        }
-    }
-
-    override fun getCartItems(): List<ProductResponse> {
-        return cart.map { product ->
-            ProductResponse(
-                    id = product.id,
-                    name = product.name,
-                    price = product.price,
-                    quantity = product.quantity,
-                    createAt = product.createAt,
-                    updateAt = product.updateAt
-            )
-        }
-    }
-
-    override fun removeFromCart(productId: String) {
-        val index = cart.indexOfFirst { product -> product.id == productId }
-
-        if (index != -1) {
-            cart.removeAt(index)
-        }
-    }
-
     override fun checkout() {
         // Implementasi logika untuk proses checkout
         // Menambahkan logika untuk menghitung total pembayaran, mengurangi stok produk dari database, memproses pembayaran
